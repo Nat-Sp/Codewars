@@ -1,0 +1,25 @@
+#Create a function that takes a positive integer and returns the next bigger number that can be formed by rearranging its digits. For example:
+#12 ==> 21
+#513 ==> 531
+#2017 ==> 2071
+
+def next_bigger(n):
+    n = list(str(n))
+    if len(n) == 1:
+        return -1 
+    
+    for i in range(len(n)-1, 0, -1):
+        if int(n[i]) > int(n[i-1]):
+            break
+    if i == 1 and int(n[i]) <= int(n[i-1]):
+        return -1
+
+    smallest = i
+    x = int(n[i-1])
+    for j in range(i+1, len(n)):
+        if int(n[j]) > x and int(n[j]) < int(n[smallest]):
+            smallest = j
+
+    n[smallest], n[i-1] = n[i-1], n[smallest]
+    new_number = n[:i] + sorted(n[i:])
+    return int(''.join(new_number))
